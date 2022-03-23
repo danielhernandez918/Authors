@@ -1,10 +1,6 @@
 const {Authors} = require('./../models/author.model')
 
 module.exports = {
-    // message
-    message : (req,res)=>{
-        res.json("message from backend")
-    },
 
     // all 
     allAuthors : (req,res)=>{

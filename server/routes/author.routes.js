@@ -1,7 +1,6 @@
 const AuthorsController = require('../controllers/author.controllers')
 
 module.exports = (app) => {
-    app.get("/api/message", AuthorsController.message)
     app.get("/api/Authors", AuthorsController.allAuthors)
     app.get("/api/Authors/:id", AuthorsController.oneAuthor)
     app.post("/api/Authors", AuthorsController.createAuthor)

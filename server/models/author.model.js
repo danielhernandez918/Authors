@@ -8,7 +8,7 @@ const AuthorsSchema = new mongoose.Schema({
     },
 },{timestamps : true});
 // create variable equal to model and export
-// const Authorss = mongoose.model('author', AuthorsSchema);
+// const Authors = mongoose.model('author', AuthorsSchema);
 // module.exports = Authors;
 
 module.exports.Authors = mongoose.model('Author', AuthorsSchema)

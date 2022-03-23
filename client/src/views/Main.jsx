@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'// took out UseEffect and UseState dont need
+import React, {useEffect, useState} from 'react'
 import axios from "axios"
 import { Link } from 'react-router-dom';
 import DeleteButton from '../components/DeleteButton';
@@ -19,14 +19,10 @@ const Main = () => {
             .catch(err => console.log(err))
     },[refresh]);
 
-    // const removeFromDom = () => {
-    //     props.reload();
-    // }
-
     return (
         <div className="col-6 mx-2">
             <h3><Link to ={ `/authors` }>Add An Author</Link></h3>
-            <h3 class="button">We have quotes by:</h3>
+            <h3>We have quotes by:</h3>
             <table className="table">
                 <thead>
                     <tr>
@@ -48,7 +44,6 @@ const Main = () => {
                     }
                 </tbody>
             </table>
-            {/* <Link to ={ `/products/new` }>Create</Link> */}
         </div>
     )
 }

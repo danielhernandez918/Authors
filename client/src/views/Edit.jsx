@@ -4,6 +4,7 @@ import { useParams, useHistory, Link  } from 'react-router-dom'
 
 const Edit = () => {
     const {id} = useParams() //destructure id from params
+    const [author, setAuthor] = useState()
     const [Name, setName] = useState()
     const history = useHistory()
     const [errors, setErrors] = useState([]); 
@@ -12,6 +13,7 @@ const Edit = () => {
         axios.get(`http://localhost:8000/api/authors/${id}`)
             // .then(response => console.log((response.data)))
             .then(res => {
+                setAuthor(res.data)
                 const author = res.data
                 setName(author.Name)
             })
@@ -35,25 +37,34 @@ const Edit = () => {
     }
     
     return (
-        <div className="col-6 mx-2">
-            <h3><Link to ={ `/` }>Home</Link></h3>
-            <h3>Edit This Author:</h3>
-            <form onSubmit={ handleSubmit }>
-                <div>
-                    <label>Name: </label>
-                    <input type="text" name="Name" value={Name}
-                        onChange={e=>setName(e.target.value)}
-                    />
-                </div>
-                <div className="d-flex align-items-center">
-                    <Link className="btn btn-danger" to ={ `/` }>Cancel</Link>
-                    <input className="btn btn-success"type="submit" value="Submit" />
-                </div>
-            </form>
+        <div>
             {
-                errors.map((err,i) => (
-                    <p key={i} style={{color:"red"}}>{err}</p>
-                ))
+                author ?
+                    <div className="col-6 mx-2">
+                        <h3><Link to ={ `/` }>Home</Link></h3>
+                        <h3>Edit This Author:</h3>
+                        <form onSubmit={ handleSubmit }>
+                            <div>
+                                <label>Name: </label>
+                                <input type="text" name="Name" value={Name}
+                                    onChange={e=>setName(e.target.value)}
+                                />
+                            </div>
+                            <div className="d-flex align-items-center">
+                                <Link className="btn btn-danger" to ={ `/` }>Cancel</Link>
+                                <input className="btn btn-success"type="submit" value="Submit" />
+                            </div>
+                        </form>
+                        {
+                            errors.map((err,i) => (
+                                <p key={i} style={{color:"red"}}>{err}</p>
+                            ))
+                        }
+                    </div>:
+                    <div>
+                        <h3><Link to ={ `/` }>Home</Link></h3>
+                        <h1> "Author does not exist!"</h1>
+                    </div>
             }
         </div>
     )
