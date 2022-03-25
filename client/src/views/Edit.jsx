@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { useParams, useHistory, Link  } from 'react-router-dom'
+import DeleteButton from '../components/DeleteButton';
 
 const Edit = () => {
     const {id} = useParams() //destructure id from params
-    const [author, setAuthor] = useState()
-    const [Name, setName] = useState()
+    const [Name, setName] = useState("")
+    const [Awesome, setAwesome] = useState("")
     const history = useHistory()
     const [errors, setErrors] = useState([]); 
 
@@ -13,17 +14,17 @@ const Edit = () => {
         axios.get(`http://localhost:8000/api/authors/${id}`)
             // .then(response => console.log((response.data)))
             .then(res => {
-                setAuthor(res.data)
                 const author = res.data
                 setName(author.Name)
+                setAwesome(author.Awesome)
             })
             .catch(err => console.log(err))
     },[id])
 
     const handleSubmit =(e)=> {
         e.preventDefault()
-        console.log({Name})
-        axios.put(`http://localhost:8000/api/authors/${id}`,{Name})
+        console.log({Name, Awesome})
+        axios.put(`http://localhost:8000/api/authors/${id}`,{Name, Awesome})
         .then(res=>history.push(`/`)) // If successful, do something with the response. 
         .catch(err=>{
             const errorResponse = err.response.data.errors; // Get the errors from err.response.data
@@ -39,20 +40,27 @@ const Edit = () => {
     return (
         <div>
             {
-                author ?
+                id ?
                     <div className="col-6 mx-2">
                         <h3><Link to ={ `/` }>Home</Link></h3>
                         <h3>Edit This Author:</h3>
                         <form onSubmit={ handleSubmit }>
                             <div>
-                                <label>Name: </label>
+                                <label className="mx-2">Name: </label>
                                 <input type="text" name="Name" value={Name}
                                     onChange={e=>setName(e.target.value)}
                                 />
                             </div>
+                            <div>
+                                <label className="mx-2">Awesome:</label>
+                                <input type="checkbox" name="Awesome" checked={Awesome}
+                                    onChange={e=>setAwesome(e.target.checked)}
+                                />
+                            </div>
                             <div className="d-flex align-items-center">
-                                <Link className="btn btn-danger" to ={ `/` }>Cancel</Link>
-                                <input className="btn btn-success"type="submit" value="Submit" />
+                                <Link className="btn btn-danger mx-2" to ={ `/` }>Cancel</Link>
+                                <input className="btn btn-success mx-2"type="submit" value="Submit" />
+                                <DeleteButton authorId={id} successCallback={()=>history.push(`/`)}/>
                             </div>
                         </form>
                         {

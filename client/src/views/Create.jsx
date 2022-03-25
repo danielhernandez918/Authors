@@ -5,13 +5,14 @@ import { useHistory, Link } from 'react-router-dom'
 const Create = () => {
     // keep key names the same as they are named in model
     const [Name, setName] = useState("")
+    const [Awesome, setAwesome] = useState(false)
     const [errors, setErrors] = useState([]); 
     const history = useHistory()
 
 const handleSubmit =(e)=> {
     e.preventDefault()
-    console.log({Name})
-    axios.post(`http://localhost:8000/api/authors`, {Name})
+    console.log({Name, Awesome})
+    axios.post(`http://localhost:8000/api/authors`, {Name, Awesome})
     .then(res=>{
             history.push("/")
         }) // If successful, do something with the response. 
@@ -38,14 +39,20 @@ const handleSubmit =(e)=> {
             <h3>Add A New Author:</h3>
             <form onSubmit={ handleSubmit }>
                 <div>
-                    <label>Name:</label>
+                    <label className="mx-2">Name:</label>
                     <input type="text" name="Name" value={Name}
                         onChange={e=>setName(e.target.value)}
                     />
                 </div>
+                <div>
+                    <label className="mx-2">Awesome:</label>
+                    <input type="checkbox" name="Awesome" checked={Awesome}
+                        onChange={e=>setAwesome(e.target.checked)}
+                    />
+                </div>
                 <div className="d-flex align-items-center">
-                    <Link className="btn btn-danger" to ={ `/` }>Cancel</Link>
-                    <input className="btn btn-success"type="submit" value="Submit" />
+                    <Link className="btn btn-danger mx-2" to ={ `/` }>Cancel</Link>
+                    <input className="btn btn-success mx-2"type="submit" value="Submit" />
                 </div>
             </form>
             {

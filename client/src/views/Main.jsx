@@ -27,6 +27,7 @@ const Main = () => {
                 <thead>
                     <tr>
                         <th>Author</th>
+                        <th>Awesome?</th>
                         <th>Actions Available</th>
                     </tr>
                 </thead>
@@ -36,7 +37,14 @@ const Main = () => {
                             authors.map((author, i) =>(
                                 <tr key = {i}>
                                     <td>{author.Name}</td>
-                                    <td ><Link className="mx-2" to ={ `/authors/${author._id}/edit` }><button>Edit</button></Link>
+                                    {   
+                                        author.Awesome === true ?
+                                            <td>Yes</td>:
+                                            <td>No</td>
+                                    }
+                                    
+                                    <td >
+                                        <Link className="mx-2" to ={ `/authors/${author._id}/edit` }><button>Edit</button></Link>
                                         <DeleteButton authorId={author._id} successCallback={()=>reload()}/>
                                     </td>
                                 </tr>
